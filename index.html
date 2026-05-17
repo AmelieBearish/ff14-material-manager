@@ -977,7 +977,7 @@
 
   function renderRecipeResult() {
     if (!lastRecipeData) return;
-    const { name, ingredients, amount } = lastRecipeData;
+    const { name, ingredients, amount, equipInfo } = lastRecipeData;
     const selectedChar = document.getElementById('recipe-char-select').value;
     const resultDiv = document.getElementById('recipe-result');
     const data = loadStorage();
