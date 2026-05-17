@@ -1006,8 +1006,7 @@
 
     try {
       // XIVAPI v2で検索
-      const searchQuery = encodeURIComponent(`Name@ja~"${query}"`);
-      const searchRes = await fetch(`https://v2.xivapi.com/api/search?sheets=Recipe&query=${searchQuery}&fields=row_id&language=ja&limit=5`);
+      const searchRes = await fetch(`https://v2.xivapi.com/api/search?sheets=Recipe&query=Name%40ja~%22${encodeURIComponent(query)}%22&language=ja&limit=5`);
       const searchData = await searchRes.json();
       if (!searchData.results || searchData.results.length === 0) {
         resultDiv.innerHTML = '<div class="empty">レシピが見つかりませんでした</div>';
