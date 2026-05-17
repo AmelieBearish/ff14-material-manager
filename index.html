@@ -8,25 +8,21 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap');
 
     :root {
-  --bg: #f3efe8;
---bg2: #fcfbf8;
---bg3: #ece7de;
 
-  --border: rgba(80, 90, 120, 0.10);
-  --border2: rgba(80, 90, 120, 0.18);
-
-  --accent: #6f7fd1;
-  --accent2: #8ea0ff;
-
-  --text: #2b3148;
-  --text2: #58607a;
-  --text3: #8d94ad;
-
-  --success: #4ea96e;
-  --danger: #d96b7d;
-  --warning: #c9952f;
-
-  --gold: #8a6b2f;
+  --bg: #f7f2eb;
+  --bg2: #fffaf4;
+  --bg3: #f2ebe3;
+  --border: rgba(110, 90, 70, 0.10);
+  --border2: rgba(110, 90, 70, 0.18);
+  --accent: #b59672;
+  --accent2: #d7c1a7;
+  --text: #54473d;
+  --text2: #726459;
+  --text3: #a29284;
+  --success: #7d9b7f;
+  --danger: #c98f8f;
+  --warning: #c9a46a;
+  --gold: #9a7754;
 }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -111,13 +107,13 @@
     }
 
     .card {
-  background: var(--bg2);
-  border: 1px solid rgba(255,255,255,0.7);
-  border-radius: 28px;
-  padding: 1.4rem 1.6rem;
+  background: rgba(255,252,248,0.96);
+  border: 1px solid rgba(160,130,100,0.10);
+  border-radius: 30px;
+  padding: 1.45rem 1.6rem;
   box-shadow:
-    0 4px 14px rgba(180, 170, 220, 0.10),
-    inset 0 1px 0 rgba(255,255,255,0.65);
+    0 8px 24px rgba(120, 95, 70, 0.06),
+    inset 0 1px 0 rgba(255,255,255,0.85);
 }
 
     .character-grid {
@@ -128,41 +124,32 @@
     }
 
     .character-card {
-  background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.95),
-    rgba(248,245,255,0.92)
-  );
-  border: 1px solid rgba(255,255,255,0.9);
-  border-radius: 30px;
-  padding: 1.35rem;
+  background:
+    rgba(255,252,248,0.98);
+  border: 1px solid rgba(170,140,110,0.10);
+  border-radius: 32px;
+  padding: 1.4rem;
   cursor: pointer;
-  transition: all 0.22s ease;
+  transition: all 0.18s ease;
   position: relative;
   box-shadow:
-    0 6px 18px rgba(188, 177, 220, 0.12),
-    inset 0 1px 0 rgba(255,255,255,0.85);
+    0 10px 24px rgba(120,95,70,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.9);
 }
 
     .character-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(214, 195, 255, 0.9);
+  border-color: rgba(181,145,108,0.22);
   box-shadow:
-    0 10px 24px rgba(188, 177, 220, 0.18),
-    inset 0 1px 0 rgba(255,255,255,0.9);
+    0 14px 28px rgba(120,95,70,0.10),
+    inset 0 1px 0 rgba(255,255,255,0.95);
 }
     .character-card.selected {
-  border-color: #dcbcff;
-
+  border-color: rgba(181,145,108,0.38);
   background:
-    linear-gradient(
-      to bottom,
-      rgba(255,245,255,0.96),
-      rgba(250,240,255,0.92)
-    );
-
+    rgba(255,248,241,0.98);
   box-shadow:
-    0 10px 24px rgba(220,188,255,0.20);
+    0 14px 30px rgba(150,120,90,0.14);
 }
 
     .character-name {
@@ -236,25 +223,24 @@
 
     input, select {
   width: 100%;
-  padding: 0.72rem 0.95rem;
+  padding: 0.75rem 1rem;
   background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(230,220,245,0.95);
+  border: 1px solid rgba(170,140,110,0.12);
   border-radius: 18px;
-  color: #6b6480;
+  color: #5f5247;
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 0.9rem;
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
   box-shadow:
-    inset 0 1px 2px rgba(180,170,220,0.06);
+    inset 0 1px 2px rgba(120,95,70,0.04);
 }
 
 input:focus,
 select:focus {
-  border-color: #d7bfff;
-
+  border-color: rgba(181,145,108,0.45);
   box-shadow:
-    0 0 0 4px rgba(223,205,255,0.25);
+    0 0 0 4px rgba(210,190,165,0.18);
 }
     input::placeholder { color: var(--text3); }
     select option { background: var(--bg3); }
@@ -295,12 +281,37 @@ select:focus {
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
 
+.btn-primary {
+  padding: 0.72rem 1.5rem;
+  background:
+    rgba(244,236,226,0.96);
+  border:
+    1px solid rgba(181,145,108,0.18);
+  border-radius: 999px;
+  color:
+    #6a5646;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow:
+    0 4px 10px rgba(120,95,70,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.85);
+}
+
 .btn-primary:hover {
-  background: #e3dccd;
+  background:
+    rgba(248,242,235,1);
+
+  border-color:
+    rgba(181,145,108,0.30);
+
   transform: translateY(-1px);
 
   box-shadow:
-    0 6px 16px rgba(0,0,0,0.06);
+    0 8px 16px rgba(120,95,70,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.95);
 }
 
     .btn-secondary {
