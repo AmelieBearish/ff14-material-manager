@@ -760,7 +760,9 @@
   async function loadCharacters() {
     if (!currentUser) return;
     const snap = await getDocs(collection(db, 'users', currentUser.uid, 'characters'));
-    characters = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    characters = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
     renderCharacters();
     updateCharSelects();
   }
@@ -827,7 +829,7 @@
         await updateDoc(doc(db, 'users', currentUser.uid, 'characters', editId), { name, world });
         showToast('更新しました');
       } else {
-        await addDoc(collection(db, 'users', currentUser.uid, 'characters'), { name, world, materialCount: 0 });
+        await addDoc(collection(db, 'users', currentUser.uid, 'characters'), { name, world, materialCount: 0, createdAt: Date.now() });
         showToast('追加しました');
       }
       closeModal('modal-char');
