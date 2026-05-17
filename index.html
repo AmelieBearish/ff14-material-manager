@@ -223,18 +223,35 @@
     select option { background: var(--bg3); }
 
     .btn-primary {
-      padding: 0.6rem 1.5rem;
-      background: var(--accent);
-      border: none;
-      border-radius: 8px;
-      color: #0d0f1a;
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity 0.2s;
-    }
-    .btn-primary:hover { opacity: 0.85; }
+  padding: 0.65rem 1.5rem;
+  background: #d9d2c3;
+  border: 1px solid rgba(120, 110, 90, 0.12);
+  border-radius: 12px;
+
+  color: #4e463d;
+
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    transform 0.15s,
+    box-shadow 0.2s;
+
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.04);
+}
+
+.btn-primary:hover {
+  background: #e3dccd;
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.06);
+}
 
     .btn-secondary {
       padding: 0.6rem 1.5rem;
