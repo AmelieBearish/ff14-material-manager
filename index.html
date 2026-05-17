@@ -73,7 +73,7 @@
       font-family: 'Noto Sans JP', sans-serif;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: border-color 0.15s, background 0.15s;
     }
 
     .nav-btn:hover { color: var(--text2); }
@@ -127,7 +127,7 @@
     #fcf8f3;
   border:
     1px solid rgba(160,130,100,0.10);
-  border-radius: 32px;
+  border-radius: 16px;
   padding: 1.4rem;
   cursor: pointer;
   transition: all 0.16s ease;
@@ -137,9 +137,7 @@
 }
 
     .character-card:hover {
-  border-color: rgba(181,145,108,0.18);
-  box-shadow:
-    0 8px 18px rgba(120,95,70,0.06);
+  border-color: rgba(181,145,108,0.22);
 }
     .character-card.selected {
   border-color:
@@ -189,7 +187,7 @@
       align-items: center;
       justify-content: center;
       font-size: 0.75rem;
-      transition: all 0.2s;
+      transition: border-color 0.15s, background 0.15s;
     }
     .btn-icon:hover { border-color: var(--danger); color: var(--danger); }
     .btn-icon.edit:hover { border-color: var(--accent); color: var(--accent); }
@@ -202,7 +200,7 @@
       cursor: pointer;
       color: var(--text3);
       font-size: 0.85rem;
-      transition: all 0.2s;
+      transition: border-color 0.15s, background 0.15s;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -222,7 +220,7 @@
     input, select {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: rgba(255,255,255,0.92);
+  background: #fffaf6;
   border: 1px solid rgba(170,140,110,0.12);
   border-radius: 18px;
   color: #5f5247;
@@ -243,42 +241,10 @@ select:focus {
     input::placeholder { color: var(--text3); }
     select option { background: var(--bg3); }
 
-    .btn-primary {
-  padding: 0.68rem 1.4rem;
 
-  background: rgba(245, 242, 250, 0.96);
-
-  border: 1px solid rgba(220, 212, 235, 0.9);
-
-  border-radius: 999px;
-
-  color: #6d6882;
-
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 0.88rem;
-  font-weight: 500;
-
-  cursor: pointer;
-
-  transition: all 0.18s ease;
-
-  box-shadow:
-    0 2px 8px rgba(190, 180, 215, 0.08),
-    inset 0 1px 0 rgba(255,255,255,0.7);
-}
-
-.btn-primary:hover {
-  background: rgba(250,248,255,1);
-  border-color: rgba(205, 190, 230, 0.95);
-  transform: translateY(-1px);
-  box-shadow:
-    0 6px 14px rgba(190, 180, 215, 0.12),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-}
 
 .btn-primary {
   padding: 0.72rem 1.5rem;
-
   background:
     #efe5d8;
   border:
@@ -316,10 +282,7 @@ select:focus {
 
 .btn-secondary:hover {
   background: rgba(255,255,255,0.9);
-
   border-color: rgba(120, 110, 90, 0.22);
-
-  transform: translateY(-1px);
 }
 
     .btn-row { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem; }
@@ -400,7 +363,7 @@ select:focus {
       color: var(--text3);
       cursor: pointer;
       font-size: 0.75rem;
-      transition: all 0.2s;
+      transition: border-color 0.15s, background 0.15s;
     }
     .btn-del:hover { border-color: var(--danger); color: var(--danger); }
 
@@ -455,7 +418,7 @@ select:focus {
       cursor: pointer;
       font-size: 0.875rem;
       color: var(--text2);
-      transition: all 0.2s;
+      transition: border-color 0.15s, background 0.15s;
       border: 1px solid transparent;
     }
 
