@@ -1006,16 +1006,21 @@
 
     try {
       // XIVAPI v2で検索
-      const searchRes = await fetch(`https://v2.xivapi.com/api/search?sheets=Recipe&query=Name%40ja~%22${encodeURIComponent(query)}%22&language=ja&limit=5`);
+      const searchUrl = new URL('https://v2.xivapi.com/api/search');
+      searchUrl.searchParams.set('sheets', 'Recipe');
+      searchUrl.searchParams.set('query', `ItemResult.Name@ja~"${query}"`);
+      searchUrl.searchParams.set('language', 'ja');
+      searchUrl.searchParams.set('limit', '5');
+      const searchRes = await fetch(searchUrl.toString());
       const searchData = await searchRes.json();
       if (!searchData.results || searchData.results.length === 0) {
         resultDiv.innerHTML = '<div class="empty">レシピが見つかりませんでした</div>';
         return;
       }
 
-      // 最初のレシピの詳細取得
+      // 最初のレシピの詳細取得（fieldsを絞らず全取得）
       const recipeId = searchData.results[0].row_id;
-      const detailRes = await fetch(`https://v2.xivapi.com/api/sheet/Recipe/${recipeId}?language=ja&fields=ItemResult,AmountResult,Ingredient[].Name,AmountIngredient[]`);
+      const detailRes = await fetch(`https://v2.xivapi.com/api/sheet/Recipe/${recipeId}?language=ja`);
       const detail = await detailRes.json();
       const f = detail.fields;
 
