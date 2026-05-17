@@ -8,27 +8,34 @@
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap');
 
     :root {
-      --bg: #0d0f1a;
-      --bg2: #141728;
-      --bg3: #1c2035;
-      --border: rgba(139, 165, 255, 0.15);
-      --border2: rgba(139, 165, 255, 0.3);
-      --accent: #8ba5ff;
-      --accent2: #c4b5fd;
-      --text: #e8ecff;
-      --text2: #9aa3c8;
-      --text3: #5a6280;
-      --success: #4ade80;
-      --danger: #f87171;
-      --warning: #fbbf24;
-      --gold: #f0c060;
-    }
+  --bg: #171923;
+  --bg2: #202438;
+  --bg3: #2a3050;
+
+  --border: rgba(199, 186, 255, 0.12);
+  --border2: rgba(199, 186, 255, 0.24);
+
+  --accent: #b7a7ff;
+  --accent2: #d6cbff;
+
+  --text: #f3f1ff;
+  --text2: #c7c0ea;
+  --text3: #8f89b3;
+
+  --success: #86efac;
+  --danger: #ff9bb0;
+  --warning: #ffd27a;
+
+  --gold: #f3d59a;
+}
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Noto Sans JP', sans-serif;
-      background: var(--bg);
+      background:
+  radial-gradient(circle at top, rgba(183,167,255,0.12), transparent 40%),
+  linear-gradient(to bottom, #1b1e2d, #141722);
       color: var(--text);
       min-height: 100vh;
     }
@@ -107,7 +114,7 @@
     .card {
       background: var(--bg2);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 18px;
       padding: 1.25rem 1.5rem;
     }
 
@@ -121,7 +128,7 @@
     .character-card {
       background: var(--bg2);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 18px;
       padding: 1.25rem;
       cursor: pointer;
       transition: all 0.2s;
@@ -205,7 +212,7 @@
       padding: 0.6rem 0.75rem;
       background: var(--bg3);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 14px;
       color: var(--text);
       font-family: 'Noto Sans JP', sans-serif;
       font-size: 0.9rem;
@@ -259,7 +266,7 @@
     .modal {
       background: var(--bg2);
       border: 1px solid var(--border2);
-      border-radius: 16px;
+      border-radius: 24px;
       padding: 1.75rem;
       width: 400px;
       max-width: 90vw;
@@ -381,9 +388,9 @@
     }
 
     .recipe-list-item:hover {
-      background: var(--bg3);
-      color: var(--text);
-    }
+  background: rgba(183, 167, 255, 0.12);
+  color: var(--text);
+}
 
     .recipe-list-item.selected {
       background: rgba(139, 165, 255, 0.1);
