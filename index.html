@@ -442,6 +442,20 @@
       color: var(--text);
     }
 
+    .equip-info {
+      margin-bottom: 1rem;
+      padding: 0.6rem 0.75rem;
+      background: var(--bg3);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .equip-info-row {
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.8;
+    }
+
     .loading {
       text-align: center;
       color: var(--text3);
@@ -928,7 +942,37 @@
         || f?.ItemResult?.value?.toString()
         || `ID:${rowId}`;
 
-      lastRecipeData = { name: recipeName, ingredients, amount: f?.AmountResult || 1 };
+      const itemId = f?.ItemResult?.value;
+      let equipInfo = null;
+      if (itemId) {
+        try {
+          const itemRes = await fetch(`https://v2.xivapi.com/api/sheet/Item/${itemId}?language=ja`);
+          const itemData = await itemRes.json();
+          const itf = itemData.fields;
+          const isEquip = itf?.EquipSlotCategory?.value > 0;
+          if (isEquip) {
+            const jobName = itf?.ClassJobCategory?.fields?.Name || null;
+            const levelEquip = itf?.LevelEquip || null;
+            const defPhys = itf?.DefensePhys || 0;
+            const defMag = itf?.DefenseMag || 0;
+            const subStats = [];
+            const baseParams = itf?.BaseParam || [];
+            const baseParamValues = itf?.BaseParamValue || [];
+            for (let i = 0; i < baseParams.length; i++) {
+              const paramName = baseParams[i]?.fields?.Name;
+              const paramVal = baseParamValues[i];
+              if (paramName && paramVal > 0) {
+                subStats.push({ name: paramName, value: paramVal });
+              }
+            }
+            equipInfo = { jobName, levelEquip, defPhys, defMag, subStats };
+          }
+        } catch(e2) {
+          console.warn('Item情報の取得に失敗しました', e2);
+        }
+      }
+
+      lastRecipeData = { name: recipeName, ingredients, amount: f?.AmountResult || 1, equipInfo };
       document.getElementById('recipe-char-row').style.display = 'flex';
       renderRecipeResult();
     } catch(e) {
@@ -956,9 +1000,28 @@
       }
     }
 
+    let equipHtml = '';
+    if (equipInfo) {
+      const jobLine = [
+        equipInfo.jobName ? escHtml(equipInfo.jobName) : null,
+        equipInfo.levelEquip ? `装備Lv${equipInfo.levelEquip}` : null
+      ].filter(Boolean).join('&emsp;');
+      const defLine = [
+        equipInfo.defPhys > 0 ? `物理防御力 ${equipInfo.defPhys}` : null,
+        equipInfo.defMag > 0 ? `魔法防御力 ${equipInfo.defMag}` : null
+      ].filter(Boolean).join('&emsp;');
+      const subLine = equipInfo.subStats.map(s => `${escHtml(s.name)} +${s.value}`).join('&emsp;');
+      equipHtml = `<div class="equip-info">`;
+      if (jobLine) equipHtml += `<div class="equip-info-row">${jobLine}</div>`;
+      if (defLine) equipHtml += `<div class="equip-info-row">${defLine}</div>`;
+      if (subLine) equipHtml += `<div class="equip-info-row">${subLine}</div>`;
+      equipHtml += `</div>`;
+    }
+
     let html = `
       <div class="card recipe-result">
-        <div class="recipe-name">${escHtml(name)} × ${amount}</div>`;
+        <div class="recipe-name">${escHtml(name)} × ${amount}</div>
+        ${equipHtml}`;
 
     ingredients.forEach(ing => {
       const totalHave = characters.reduce((sum, c) => sum + (possession[c.id]?.[ing.name] || 0), 0);
