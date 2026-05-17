@@ -602,6 +602,8 @@ input:-webkit-autofill:focus {
             <select id="recipe-char-select" style="width:200px" onchange="reRenderRecipe()">
               <option value="all">全キャラ合算</option>
             </select>
+            <span class="char-select-label" style="margin-left:1rem;">作成個数：</span>
+            <input type="number" id="craft-count" min="1" value="1" style="width:80px" onchange="updateCraftCount(this.value)" />
           </div>
           <div id="recipe-result"></div>
         </div>
@@ -1000,7 +1002,7 @@ input:-webkit-autofill:focus {
         equipInfo = { jobName, levelEquip, defPhys, defMag, subStats };
       }
 
-      lastRecipeData = { name: recipeName, ingredients, amount: f?.AmountResult || 1, equipInfo };
+      lastRecipeData = { row_id: rowId, name: recipeName, ingredients, amount: f?.AmountResult || 1, equipInfo, craftCount: 1 };
       document.getElementById('recipe-char-row').style.display = 'flex';
       renderRecipeResult();
     } catch(e) {
@@ -1013,9 +1015,17 @@ input:-webkit-autofill:focus {
     if (lastRecipeData) renderRecipeResult();
   };
 
+  window.updateCraftCount = (val) => {
+    if (!lastRecipeData) return;
+    const count = Math.max(1, parseInt(val) || 1);
+    lastRecipeData.craftCount = count;
+    document.getElementById('craft-count').value = count;
+    renderRecipeResult();
+  };
+
   function renderRecipeResult() {
     if (!lastRecipeData) return;
-    const { name, ingredients, amount, equipInfo } = lastRecipeData;
+    const { name, ingredients, amount, equipInfo, craftCount } = lastRecipeData;
     const selectedChar = document.getElementById('recipe-char-select').value;
     const resultDiv = document.getElementById('recipe-result');
     const data = loadStorage();
@@ -1048,26 +1058,27 @@ input:-webkit-autofill:focus {
 
     let html = `
       <div class="card recipe-result">
-        <div class="recipe-name">${escHtml(name)} × ${amount}</div>
+        <div class="recipe-name">${escHtml(name)} × ${amount * craftCount}</div>
         ${equipHtml}`;
 
     ingredients.forEach(ing => {
+      const need = ing.need * craftCount;
       const totalHave = characters.reduce((sum, c) => sum + (possession[c.id]?.[ing.name] || 0), 0);
       const selectedHave = selectedChar === 'all'
         ? totalHave
         : (possession[selectedChar]?.[ing.name] || 0);
-      const enough = selectedHave >= ing.need;
-      const totalEnough = totalHave >= ing.need;
+      const enough = selectedHave >= need;
+      const totalEnough = totalHave >= need;
 
       let statusLabel = '';
       let statusClass = '';
       if (selectedChar === 'all') {
         if (totalEnough) { statusLabel = '✓ 足りる'; statusClass = 'status-ok'; }
-        else { statusLabel = `✗ ${ing.need - totalHave}個不足`; statusClass = 'status-ng'; }
+        else { statusLabel = `✗ ${need - totalHave}個不足`; statusClass = 'status-ng'; }
       } else {
         if (enough) { statusLabel = '✓ 足りる'; statusClass = 'status-ok'; }
         else if (totalEnough) { statusLabel = '△ 合算で足りる'; statusClass = 'status-warn'; }
-        else { statusLabel = `✗ ${ing.need - totalHave}個不足`; statusClass = 'status-ng'; }
+        else { statusLabel = `✗ ${need - totalHave}個不足`; statusClass = 'status-ng'; }
       }
 
       const breakdownChars = selectedChar === 'all' ? characters : characters.filter(c => c.id === selectedChar);
@@ -1075,7 +1086,7 @@ input:-webkit-autofill:focus {
       html += `
         <div class="ingredient-row">
           <div class="ingredient-name">${escHtml(ing.name)}</div>
-          <div class="ingredient-need">必要: ${ing.need}</div>
+          <div class="ingredient-need">必要: ${need}</div>
           <div class="${statusClass}" style="min-width:120px;text-align:right">${statusLabel}</div>
         </div>
         <div class="char-breakdown">
