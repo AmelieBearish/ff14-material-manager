@@ -14,22 +14,22 @@
   --bg3: #f2e9df;
   --border: rgba(110, 90, 70, 0.10);
   --border2: rgba(110, 90, 70, 0.18);
-  --accent: #b59672;
-  --accent2: #d7c1a7;
-  --text: #54473d;
-  --text2: #726459;
-  --text3: #a29284;
+  --accent: #D09E88;
+  --accent2: #FADAD8;
+  --text: #534847;
+  --text2: #9B8281;
+  --text3: #c4adac;
   --success: #7d9b7f;
   --danger: #c98f8f;
   --warning: #c9a46a;
-  --gold: #9a7754;
+  --gold: #C08878;
 }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
   font-family: 'Klee One', cursive;
-  background: #f3eee7;
+  background: var(--bg);
   color: var(--text);
   min-height: 100vh;
 }
@@ -107,8 +107,8 @@
 }
 
     .character-card:hover {
-  border-color: rgba(181,145,108,0.24);
-  background: #f8f2ea;
+  border-color: rgba(208,158,136,0.35);
+  background: var(--bg3);
 }
 
     .character-grid {
@@ -119,29 +119,23 @@
     }
 
     .character-card {
-  background:
-    #fcf8f3;
-  border:
-    1px solid rgba(160,130,100,0.10);
+  background: var(--bg2);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 1.4rem;
   cursor: pointer;
   transition: all 0.16s ease;
   position: relative;
-  box-shadow:
-    0 6px 18px rgba(120,95,70,0.05);
+  box-shadow: 0 6px 18px rgba(83,72,71,0.06);
 }
 
     .character-card:hover {
   border-color: rgba(181,145,108,0.22);
 }
     .character-card.selected {
-  border-color:
-    rgba(181,145,108,0.30);
-  background:
-    #f8f1e8;
-  box-shadow:
-    0 8px 22px rgba(120,95,70,0.08);
+  border-color: rgba(208,158,136,0.45);
+  background: var(--bg3);
+  box-shadow: 0 8px 22px rgba(83,72,71,0.08);
 }
 
     .character-name {
@@ -216,10 +210,10 @@
     input, select {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: #fffaf6;
-  border: 1px solid rgba(170,140,110,0.12);
+  background: var(--bg2);
+  border: 1px solid var(--border);
   border-radius: 18px;
-  color: #5f5247;
+  color: var(--text);
   font-family: 'Klee One', cursive;
   font-size: 0.9rem;
   outline: none;
@@ -241,13 +235,10 @@ select:focus {
 
 .btn-primary {
   padding: 0.72rem 1.5rem;
-  background:
-    #efe5d8;
-  border:
-    1px solid rgba(181,145,108,0.16);
+  background: var(--accent2);
+  border: 1px solid rgba(208,158,136,0.30);
   border-radius: 999px;
-  color:
-    #6b5645;
+  color: var(--text);
   font-family: 'Klee One', cursive;
   font-size: 0.88rem;
   font-weight: 600;
@@ -258,15 +249,16 @@ select:focus {
 }
 
 .btn-primary:hover {
-  background: #f2e7d9;
-  border-color: rgba(181,145,108,0.24);
+  background: var(--accent2);
+  border-color: rgba(208,158,136,0.45);
+  filter: brightness(0.97);
 }
     .btn-secondary {
   padding: 0.65rem 1.5rem;
   background: rgba(255,255,255,0.55);
-  border: 1px solid rgba(120, 110, 90, 0.14);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  color: #6a6258;
+  color: var(--text2);
   font-family: 'Klee One', cursive;
   font-size: 0.875rem;
   cursor: pointer;
@@ -426,12 +418,9 @@ select:focus {
 }
 
     .recipe-list-item.selected {
-  background:
-    rgba(181,145,108,0.14);
-  border-color:
-    rgba(181,145,108,0.18);
-  color:
-    #7b624d;
+  background: rgba(208,158,136,0.14);
+  border-color: rgba(208,158,136,0.25);
+  color: var(--text);
 }
 
     .search-bar input { flex: 1; }
