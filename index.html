@@ -33,76 +33,7 @@
       min-height: 100vh;
     }
 
-    /* ===== ログイン画面 ===== */
-    #login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(ellipse at 20% 50%, rgba(100, 80, 200, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(60, 120, 255, 0.08) 0%, transparent 50%),
-        var(--bg);
-    }
-
-    .login-card {
-      width: 380px;
-      padding: 3rem 2.5rem;
-      border: 1px solid var(--border2);
-      border-radius: 16px;
-      background: var(--bg2);
-      text-align: center;
-    }
-
-    .login-logo {
-      font-family: 'Cinzel', serif;
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: 0.05em;
-      margin-bottom: 0.4rem;
-    }
-
-    .login-subtitle {
-      font-size: 0.8rem;
-      color: var(--text3);
-      letter-spacing: 0.1em;
-      margin-bottom: 2.5rem;
-    }
-
-    .login-desc {
-      font-size: 0.85rem;
-      color: var(--text2);
-      line-height: 1.8;
-      margin-bottom: 2rem;
-    }
-
-    .btn-google {
-      width: 100%;
-      padding: 0.75rem 1.5rem;
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      background: var(--bg3);
-      color: var(--text);
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .btn-google:hover {
-      border-color: var(--accent);
-      background: rgba(139, 165, 255, 0.06);
-    }
-
-    .btn-google svg { flex-shrink: 0; }
-
-    /* ===== アプリ全体レイアウト ===== */
-    #app { display: none; min-height: 100vh; }
+    #app { min-height: 100vh; }
 
     header {
       height: 56px;
@@ -123,37 +54,6 @@
       flex: 1;
     }
 
-    .header-user {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1px solid var(--border2);
-    }
-
-    .user-name {
-      font-size: 0.85rem;
-      color: var(--text2);
-    }
-
-    .btn-logout {
-      padding: 0.3rem 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: transparent;
-      color: var(--text3);
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
-
-    /* ===== ナビ ===== */
     nav {
       display: flex;
       border-bottom: 1px solid var(--border);
@@ -177,7 +77,6 @@
     .nav-btn:hover { color: var(--text2); }
     .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-    /* ===== メインコンテンツ ===== */
     main {
       max-width: 960px;
       margin: 0 auto;
@@ -187,7 +86,6 @@
     .page { display: none; }
     .page.active { display: block; }
 
-    /* ===== セクションタイトル ===== */
     .section-title {
       font-family: 'Cinzel', serif;
       font-size: 1rem;
@@ -206,7 +104,6 @@
       background: linear-gradient(to right, var(--border2), transparent);
     }
 
-    /* ===== カード ===== */
     .card {
       background: var(--bg2);
       border: 1px solid var(--border);
@@ -214,7 +111,6 @@
       padding: 1.25rem 1.5rem;
     }
 
-    /* ===== キャラクター一覧 ===== */
     .character-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -242,10 +138,7 @@
       margin-bottom: 0.3rem;
     }
 
-    .character-world {
-      font-size: 0.75rem;
-      color: var(--text3);
-    }
+    .character-world { font-size: 0.75rem; color: var(--text3); }
 
     .character-count {
       font-size: 0.75rem;
@@ -298,7 +191,6 @@
     }
     .btn-add-char:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ===== フォーム ===== */
     .form-group { margin-bottom: 1rem; }
 
     label {
@@ -353,16 +245,14 @@
 
     .btn-row { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.25rem; }
 
-    /* ===== モーダル ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.6);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       z-index: 100;
-      display: none;
     }
     .modal-overlay.open { display: flex; }
 
@@ -382,7 +272,6 @@
       margin-bottom: 1.25rem;
     }
 
-    /* ===== 素材一覧 ===== */
     .material-header {
       display: flex;
       align-items: center;
@@ -436,7 +325,6 @@
     }
     .btn-del:hover { border-color: var(--danger); color: var(--danger); }
 
-    /* ===== 素材横断一覧 ===== */
     .overview-table {
       width: 100%;
       border-collapse: collapse;
@@ -460,14 +348,6 @@
 
     .overview-table tr:hover td { background: rgba(139, 165, 255, 0.04); }
 
-    .tag {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.7rem;
-    }
-
-    /* ===== レシピ検索 ===== */
     .search-bar {
       display: flex;
       gap: 0.75rem;
@@ -476,9 +356,7 @@
 
     .search-bar input { flex: 1; }
 
-    .recipe-result {
-      margin-top: 1.5rem;
-    }
+    .recipe-result { margin-top: 1.5rem; }
 
     .recipe-name {
       font-family: 'Cinzel', serif;
@@ -527,7 +405,6 @@
       color: var(--text);
     }
 
-    /* ===== ローディング ===== */
     .loading {
       text-align: center;
       color: var(--text3);
@@ -535,7 +412,6 @@
       padding: 2rem;
     }
 
-    /* ===== 空状態 ===== */
     .empty {
       text-align: center;
       color: var(--text3);
@@ -543,7 +419,6 @@
       padding: 3rem;
     }
 
-    /* ===== トースト ===== */
     #toast {
       position: fixed;
       bottom: 2rem;
@@ -564,28 +439,9 @@
 </head>
 <body>
 
-<!-- ===== ログイン画面 ===== -->
-<div id="login-screen">
-  <div class="login-card">
-    <div class="login-logo">FF14 素材管理</div>
-    <div class="login-subtitle">MATERIAL MANAGER</div>
-    <p class="login-desc">キャラクターごとに素材を管理し<br>レシピに必要な素材が揃っているか確認できます</p>
-    <button class="btn-google" onclick="signIn()">
-      <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
-      Googleでログイン
-    </button>
-  </div>
-</div>
-
-<!-- ===== アプリ本体 ===== -->
 <div id="app">
   <header>
     <div class="header-logo">FF14 素材管理</div>
-    <div class="header-user">
-      <img class="avatar" id="user-avatar" src="" alt="" />
-      <span class="user-name" id="user-name"></span>
-      <button class="btn-logout" onclick="signOut()">ログアウト</button>
-    </div>
   </header>
 
   <nav>
@@ -596,15 +452,11 @@
   </nav>
 
   <main>
-    <!-- キャラクターページ -->
     <div id="page-characters" class="page active">
       <div class="section-title">キャラクター管理</div>
-      <div class="character-grid" id="character-grid">
-        <div class="loading">読み込み中...</div>
-      </div>
+      <div class="character-grid" id="character-grid"></div>
     </div>
 
-    <!-- 素材管理ページ -->
     <div id="page-materials" class="page">
       <div class="section-title">素材管理</div>
       <div class="material-header">
@@ -628,7 +480,6 @@
       </div>
     </div>
 
-    <!-- 素材横断一覧ページ -->
     <div id="page-overview" class="page">
       <div class="section-title">素材横断一覧</div>
       <div class="card">
@@ -646,7 +497,6 @@
       </div>
     </div>
 
-    <!-- レシピ検索ページ -->
     <div id="page-recipe" class="page">
       <div class="section-title">レシピ検索</div>
       <div class="search-bar">
@@ -678,44 +528,24 @@
       <select id="char-world-input">
         <option value="">未選択</option>
         <optgroup label="Elemental">
-          <option>Aegis</option>
-          <option>Atomos</option>
-          <option>Carbuncle</option>
-          <option>Garuda</option>
-          <option>Gungnir</option>
-          <option>Kujata</option>
-          <option>Tonberry</option>
-          <option>Typhon</option>
+          <option>Aegis</option><option>Atomos</option><option>Carbuncle</option>
+          <option>Garuda</option><option>Gungnir</option><option>Kujata</option>
+          <option>Tonberry</option><option>Typhon</option>
         </optgroup>
         <optgroup label="Gaia">
-          <option>Alexander</option>
-          <option>Bahamut</option>
-          <option>Durandal</option>
-          <option>Fenrir</option>
-          <option>Ifrit</option>
-          <option>Ridill</option>
-          <option>Tiamat</option>
-          <option>Ultima</option>
+          <option>Alexander</option><option>Bahamut</option><option>Durandal</option>
+          <option>Fenrir</option><option>Ifrit</option><option>Ridill</option>
+          <option>Tiamat</option><option>Ultima</option>
         </optgroup>
         <optgroup label="Mana">
-          <option>Anima</option>
-          <option>Asura</option>
-          <option>Chocobo</option>
-          <option>Hades</option>
-          <option>Ixion</option>
-          <option>Masamune</option>
-          <option>Pandaemonium</option>
-          <option>Titan</option>
+          <option>Anima</option><option>Asura</option><option>Chocobo</option>
+          <option>Hades</option><option>Ixion</option><option>Masamune</option>
+          <option>Pandaemonium</option><option>Titan</option>
         </optgroup>
         <optgroup label="Meteor">
-          <option>Belias</option>
-          <option>Mandragora</option>
-          <option>Ramuh</option>
-          <option>Shinryu</option>
-          <option>Unicorn</option>
-          <option>Valefor</option>
-          <option>Yojimbo</option>
-          <option>Zeromus</option>
+          <option>Belias</option><option>Mandragora</option><option>Ramuh</option>
+          <option>Shinryu</option><option>Unicorn</option><option>Valefor</option>
+          <option>Yojimbo</option><option>Zeromus</option>
         </optgroup>
       </select>
     </div>
@@ -747,80 +577,39 @@
 
 <div id="toast"></div>
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut as fbSignOut, onAuthStateChanged }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, deleteDoc, updateDoc, onSnapshot }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script>
+  // ===== localStorage操作 =====
+  const STORAGE_KEY = 'ff14_material_manager';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCk2evjuwOqQOwP9XyhXvX9CoNafU5ayq0",
-    authDomain: "ff14-material-manager.firebaseapp.com",
-    projectId: "ff14-material-manager",
-    storageBucket: "ff14-material-manager.firebasestorage.app",
-    messagingSenderId: "307412512711",
-    appId: "1:307412512711:web:e22cc6e27704470f96b3e2"
-  };
+  function loadStorage() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { characters: [] };
+    } catch(e) {
+      return { characters: [] };
+    }
+  }
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
+  function saveStorage(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
 
-  let currentUser = null;
+  // ===== 状態 =====
   let characters = [];
   let lastRecipeData = null;
 
-  // ===== 認証 =====
-  window.signIn = async () => {
-    try { await signInWithRedirect(auth, provider); }
-    catch(e) { showToast('ログインに失敗しました'); }
-  };
-
-  window.signOut = async () => {
-    await fbSignOut(auth);
-  };
-
-  // リダイレクト後のログイン結果を処理
-  try {
-    await getRedirectResult(auth);
-  } catch(e) {
-    showToast('ログインに失敗しました');
-  }
-
-  onAuthStateChanged(auth, async user => {
-    if (user) {
-      currentUser = user;
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-      document.getElementById('user-name').textContent = user.displayName;
-      document.getElementById('user-avatar').src = user.photoURL || '';
-      await loadCharacters();
-    } else {
-      currentUser = null;
-      document.getElementById('login-screen').style.display = 'flex';
-      document.getElementById('app').style.display = 'none';
-    }
-  });
-
-  // ===== キャラクター =====
-  async function loadCharacters() {
-    if (!currentUser) return;
-    const snap = await getDocs(collection(db, 'users', currentUser.uid, 'characters'));
-    characters = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+  function init() {
+    const data = loadStorage();
+    characters = (data.characters || []).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
     renderCharacters();
     updateCharSelects();
   }
 
+  // ===== キャラクター =====
   function renderCharacters() {
     const grid = document.getElementById('character-grid');
     let html = '';
     characters.forEach(c => {
-      const matCount = c.materialCount || 0;
+      const matCount = (c.materials || []).length;
       html += `
         <div class="character-card" id="ccard-${c.id}">
           <div class="character-actions">
@@ -868,47 +657,61 @@
     openModal('modal-char');
   };
 
-  window.saveCharacter = async () => {
+  window.saveCharacter = () => {
     const name = document.getElementById('char-name-input').value.trim();
     const world = document.getElementById('char-world-input').value.trim();
     if (!name) { showToast('名前を入力してください'); return; }
     const editId = document.getElementById('edit-char-id').value;
-    try {
-      if (editId) {
-        await updateDoc(doc(db, 'users', currentUser.uid, 'characters', editId), { name, world });
-        showToast('更新しました');
-      } else {
-        await addDoc(collection(db, 'users', currentUser.uid, 'characters'), { name, world, materialCount: 0, createdAt: Date.now() });
-        showToast('追加しました');
+    const data = loadStorage();
+
+    if (editId) {
+      const idx = data.characters.findIndex(c => c.id === editId);
+      if (idx !== -1) {
+        data.characters[idx].name = name;
+        data.characters[idx].world = world;
       }
-      closeModal('modal-char');
-      await loadCharacters();
-    } catch(e) { showToast('エラーが発生しました'); }
+      showToast('更新しました');
+    } else {
+      data.characters.push({
+        id: 'c_' + Date.now(),
+        name,
+        world,
+        materials: [],
+        createdAt: Date.now()
+      });
+      showToast('追加しました');
+    }
+
+    saveStorage(data);
+    closeModal('modal-char');
+    init();
   };
 
-  window.deleteChar = async (id, e) => {
+  window.deleteChar = (id, e) => {
     e && e.stopPropagation();
     if (!confirm('このキャラクターを削除しますか？\n（素材データも削除されます）')) return;
-    const mats = await getDocs(collection(db, 'users', currentUser.uid, 'characters', id, 'materials'));
-    for (const m of mats.docs) await deleteDoc(m.ref);
-    await deleteDoc(doc(db, 'users', currentUser.uid, 'characters', id));
+    const data = loadStorage();
+    data.characters = data.characters.filter(c => c.id !== id);
+    saveStorage(data);
     showToast('削除しました');
-    await loadCharacters();
+    init();
   };
 
   // ===== 素材管理 =====
-  window.loadMaterials = async () => {
+  window.loadMaterials = () => {
     const charId = document.getElementById('mat-char-select').value;
     if (!charId) return;
+    const data = loadStorage();
+    const char = data.characters.find(c => c.id === charId);
+    const mats = char ? (char.materials || []) : [];
     const tbody = document.getElementById('material-tbody');
-    tbody.innerHTML = '<tr><td colspan="3" class="loading">読み込み中...</td></tr>';
-    const snap = await getDocs(collection(db, 'users', currentUser.uid, 'characters', charId, 'materials'));
-    const mats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
     if (mats.length === 0) {
       tbody.innerHTML = '<tr><td colspan="3" class="empty">素材がありません</td></tr>';
       return;
     }
-    tbody.innerHTML = mats.sort((a,b)=>a.name.localeCompare(b.name,'ja')).map(m => `
+
+    tbody.innerHTML = [...mats].sort((a, b) => a.name.localeCompare(b.name, 'ja')).map(m => `
       <tr>
         <td>${escHtml(m.name)}</td>
         <td><input class="qty-input" type="number" min="0" value="${m.quantity}" onchange="updateQty('${charId}','${m.id}',this.value)" /></td>
@@ -925,48 +728,55 @@
     openModal('modal-material');
   };
 
-  window.saveMaterial = async () => {
+  window.saveMaterial = () => {
     const charId = document.getElementById('mat-char-select').value;
     const name = document.getElementById('mat-name-input').value.trim();
     const qty = parseInt(document.getElementById('mat-qty-input').value) || 0;
     if (!name) { showToast('アイテム名を入力してください'); return; }
-    try {
-      const matsRef = collection(db, 'users', currentUser.uid, 'characters', charId, 'materials');
-      const snap = await getDocs(matsRef);
-      const existing = snap.docs.find(d => d.data().name === name);
-      if (existing) {
-        await updateDoc(existing.ref, { quantity: existing.data().quantity + qty });
-        showToast(`${name} の個数を更新しました`);
-      } else {
-        await addDoc(matsRef, { name, quantity: qty });
-        showToast('追加しました');
-      }
-      const allMats = await getDocs(matsRef);
-      await updateDoc(doc(db, 'users', currentUser.uid, 'characters', charId), { materialCount: allMats.size });
-      closeModal('modal-material');
-      await loadMaterials();
-      await loadCharacters();
-    } catch(e) { showToast('エラーが発生しました'); console.error(e); }
+
+    const data = loadStorage();
+    const char = data.characters.find(c => c.id === charId);
+    if (!char) return;
+    if (!char.materials) char.materials = [];
+
+    const existing = char.materials.find(m => m.name === name);
+    if (existing) {
+      existing.quantity += qty;
+      showToast(`${name} の個数を更新しました`);
+    } else {
+      char.materials.push({ id: 'm_' + Date.now(), name, quantity: qty });
+      showToast('追加しました');
+    }
+
+    saveStorage(data);
+    closeModal('modal-material');
+    loadMaterials();
   };
 
-  window.updateQty = async (charId, matId, val) => {
+  window.updateQty = (charId, matId, val) => {
     const qty = parseInt(val) || 0;
-    await updateDoc(doc(db, 'users', currentUser.uid, 'characters', charId, 'materials', matId), { quantity: qty });
+    const data = loadStorage();
+    const char = data.characters.find(c => c.id === charId);
+    if (!char) return;
+    const mat = (char.materials || []).find(m => m.id === matId);
+    if (mat) mat.quantity = qty;
+    saveStorage(data);
     showToast('更新しました');
   };
 
-  window.deleteMat = async (charId, matId) => {
+  window.deleteMat = (charId, matId) => {
     if (!confirm('この素材を削除しますか？')) return;
-    await deleteDoc(doc(db, 'users', currentUser.uid, 'characters', charId, 'materials', matId));
-    const allMats = await getDocs(collection(db, 'users', currentUser.uid, 'characters', charId, 'materials'));
-    await updateDoc(doc(db, 'users', currentUser.uid, 'characters', charId), { materialCount: allMats.size });
+    const data = loadStorage();
+    const char = data.characters.find(c => c.id === charId);
+    if (!char) return;
+    char.materials = (char.materials || []).filter(m => m.id !== matId);
+    saveStorage(data);
     showToast('削除しました');
-    await loadMaterials();
-    await loadCharacters();
+    loadMaterials();
   };
 
   // ===== 素材横断一覧 =====
-  window.loadOverview = async () => {
+  window.loadOverview = () => {
     const thead = document.getElementById('overview-header');
     const tbody = document.getElementById('overview-tbody');
     if (characters.length === 0) {
@@ -974,32 +784,28 @@
       return;
     }
 
-    // 全キャラの素材を取得
+    const data = loadStorage();
     const allData = {};
-    for (const c of characters) {
-      const snap = await getDocs(collection(db, 'users', currentUser.uid, 'characters', c.id, 'materials'));
-      snap.docs.forEach(d => {
-        const { name, quantity } = d.data();
-        if (!allData[name]) allData[name] = { total: 0, chars: {} };
-        allData[name].total += quantity;
-        allData[name].chars[c.id] = quantity;
-      });
+    for (const c of data.characters) {
+      for (const m of (c.materials || [])) {
+        if (!allData[m.name]) allData[m.name] = { total: 0, chars: {} };
+        allData[m.name].total += m.quantity;
+        allData[m.name].chars[c.id] = m.quantity;
+      }
     }
 
-    const items = Object.entries(allData).sort((a,b) => a[0].localeCompare(b[0],'ja'));
+    const items = Object.entries(allData).sort((a, b) => a[0].localeCompare(b[0], 'ja'));
     if (items.length === 0) {
       tbody.innerHTML = '<tr><td colspan="2" class="empty">素材が登録されていません</td></tr>';
       return;
     }
 
-    // ヘッダー
-    thead.innerHTML = `<th>アイテム名</th>${characters.map(c=>`<th>${escHtml(c.name)}</th>`).join('')}<th>合計</th>`;
-    // ボディ
-    tbody.innerHTML = items.map(([name, data]) =>
+    thead.innerHTML = `<th>アイテム名</th>${characters.map(c => `<th>${escHtml(c.name)}</th>`).join('')}<th>合計</th>`;
+    tbody.innerHTML = items.map(([name, d]) =>
       `<tr>
         <td>${escHtml(name)}</td>
-        ${characters.map(c => `<td style="color:var(--text2)">${data.chars[c.id] ?? '—'}</td>`).join('')}
-        <td style="font-weight:500;color:var(--accent)">${data.total}</td>
+        ${characters.map(c => `<td style="color:var(--text2)">${d.chars[c.id] ?? '—'}</td>`).join('')}
+        <td style="font-weight:500;color:var(--accent)">${d.total}</td>
       </tr>`
     ).join('');
   };
@@ -1012,7 +818,6 @@
     resultDiv.innerHTML = '<div class="loading">検索中...</div>';
 
     try {
-      // XIVAPI v2で検索
       const searchUrl = new URL('https://v2.xivapi.com/api/search');
       searchUrl.searchParams.set('sheets', 'Recipe');
       searchUrl.searchParams.set('query', `ItemResult.Name@ja~"${query}"`);
@@ -1025,13 +830,11 @@
         return;
       }
 
-      // 最初のレシピの詳細取得（fieldsを絞らず全取得）
       const recipeId = searchData.results[0].row_id;
       const detailRes = await fetch(`https://v2.xivapi.com/api/sheet/Recipe/${recipeId}?language=ja`);
       const detail = await detailRes.json();
       const f = detail.fields;
 
-      // 素材リスト作成（フォールバックあり）
       const ingredients = [];
       const ingredientArr = f?.Ingredient || [];
       const amountArr = f?.AmountIngredient || [];
@@ -1044,42 +847,35 @@
         ingredients.push({ name: itemName, need: amount });
       }
 
-      // レシピ名（フォールバックあり）
       const recipeName = f?.ItemResult?.fields?.Name
         || f?.ItemResult?.value?.toString()
         || query;
 
-      lastRecipeData = {
-        name: recipeName,
-        ingredients,
-        amount: f?.AmountResult || 1
-      };
-
-      await renderRecipeResult();
+      lastRecipeData = { name: recipeName, ingredients, amount: f?.AmountResult || 1 };
+      renderRecipeResult();
     } catch(e) {
       resultDiv.innerHTML = '<div class="empty">検索中にエラーが発生しました</div>';
       console.error(e);
     }
   };
 
-  window.reRenderRecipe = async () => {
-    if (lastRecipeData) await renderRecipeResult();
+  window.reRenderRecipe = () => {
+    if (lastRecipeData) renderRecipeResult();
   };
 
-  async function renderRecipeResult() {
+  function renderRecipeResult() {
     if (!lastRecipeData) return;
     const { name, ingredients, amount } = lastRecipeData;
     const selectedChar = document.getElementById('recipe-char-select').value;
     const resultDiv = document.getElementById('recipe-result');
+    const data = loadStorage();
 
-    // 所持素材を取得
-    const possession = {}; // charId -> { itemName -> qty }
-    for (const c of characters) {
-      const snap = await getDocs(collection(db, 'users', currentUser.uid, 'characters', c.id, 'materials'));
+    const possession = {};
+    for (const c of data.characters) {
       possession[c.id] = {};
-      snap.docs.forEach(d => {
-        possession[c.id][d.data().name] = d.data().quantity;
-      });
+      for (const m of (c.materials || [])) {
+        possession[c.id][m.name] = m.quantity;
+      }
     }
 
     let html = `
@@ -1116,12 +912,12 @@
             const have = possession[c.id]?.[ing.name] || 0;
             return `<div class="char-breakdown-row">
               <span style="color:var(--text3)">${escHtml(c.name)}</span>
-              <span style="color:${have>0?'var(--text)':'var(--text3)'}">${have}個</span>
+              <span style="color:${have > 0 ? 'var(--text)' : 'var(--text3)'}">${have}個</span>
             </div>`;
           }).join('')}
           <div class="total-row">
             <span>合計</span>
-            <span style="color:${totalEnough?'var(--success)':'var(--danger)'}">${totalHave}個</span>
+            <span style="color:${totalEnough ? 'var(--success)' : 'var(--danger)'}">${totalHave}個</span>
           </div>
         </div>`;
     });
@@ -1157,6 +953,9 @@
   function escHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
+
+  // ===== 起動 =====
+  init();
 </script>
 </body>
 </html>
