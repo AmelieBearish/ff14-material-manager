@@ -750,7 +750,7 @@
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
+  import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut as fbSignOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, deleteDoc, updateDoc, onSnapshot }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -775,13 +775,20 @@
 
   // ===== 認証 =====
   window.signIn = async () => {
-    try { await signInWithPopup(auth, provider); }
+    try { await signInWithRedirect(auth, provider); }
     catch(e) { showToast('ログインに失敗しました'); }
   };
 
   window.signOut = async () => {
     await fbSignOut(auth);
   };
+
+  // リダイレクト後のログイン結果を処理
+  try {
+    await getRedirectResult(auth);
+  } catch(e) {
+    showToast('ログインに失敗しました');
+  }
 
   onAuthStateChanged(auth, async user => {
     if (user) {
