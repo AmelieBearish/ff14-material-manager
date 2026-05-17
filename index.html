@@ -37,12 +37,13 @@
     #app { min-height: 100vh; }
 
     header {
-      height: 56px;
+      height: auto;
       border-bottom: 1px solid var(--border);
       background: var(--bg2);
       display: flex;
       align-items: center;
-      padding: 0 1.5rem;
+      justify-content: center;
+      padding: 1rem 1.5rem;
       gap: 1rem;
     }
 
@@ -529,7 +530,7 @@ input:-webkit-autofill:focus {
 
 <div id="app">
   <header>
-    <div class="header-logo"><img src="logo.png" alt="まてぽけ１４" style="height:40px;" /></div>
+    <div class="header-logo"><img src="logo.png" alt="まてぽけ１４" style="height:120px; display:block; margin:0 auto;" /></div>
   </header>
 
   <nav>
