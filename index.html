@@ -942,34 +942,24 @@
         || f?.ItemResult?.value?.toString()
         || `ID:${rowId}`;
 
-      const itemId = f?.ItemResult?.value;
+      const itf = f?.ItemResult?.fields;
       let equipInfo = null;
-      if (itemId) {
-        try {
-          const itemRes = await fetch(`https://v2.xivapi.com/api/sheet/Item/${itemId}?language=ja`);
-          const itemData = await itemRes.json();
-          const itf = itemData.fields;
-          const isEquip = itf?.EquipSlotCategory?.value > 0;
-          if (isEquip) {
-            const jobName = itf?.ClassJobCategory?.fields?.Name || null;
-            const levelEquip = itf?.LevelEquip || null;
-            const defPhys = itf?.DefensePhys || 0;
-            const defMag = itf?.DefenseMag || 0;
-            const subStats = [];
-            const baseParams = itf?.BaseParam || [];
-            const baseParamValues = itf?.BaseParamValue || [];
-            for (let i = 0; i < baseParams.length; i++) {
-              const paramName = baseParams[i]?.fields?.Name;
-              const paramVal = baseParamValues[i];
-              if (paramName && paramVal > 0) {
-                subStats.push({ name: paramName, value: paramVal });
-              }
-            }
-            equipInfo = { jobName, levelEquip, defPhys, defMag, subStats };
+      if (itf?.EquipSlotCategory?.value > 0) {
+        const jobName = itf?.ClassJobCategory?.fields?.Name || null;
+        const levelEquip = itf?.LevelEquip || null;
+        const defPhys = itf?.DefensePhys || 0;
+        const defMag = itf?.DefenseMag || 0;
+        const subStats = [];
+        const baseParams = itf?.BaseParam || [];
+        const baseParamValues = itf?.BaseParamValue || [];
+        for (let i = 0; i < baseParams.length; i++) {
+          const paramName = baseParams[i]?.fields?.Name;
+          const paramVal = baseParamValues[i];
+          if (paramName && paramVal > 0) {
+            subStats.push({ name: paramName, value: paramVal });
           }
-        } catch(e2) {
-          console.warn('Item情報の取得に失敗しました', e2);
         }
+        equipInfo = { jobName, levelEquip, defPhys, defMag, subStats };
       }
 
       lastRecipeData = { name: recipeName, ingredients, amount: f?.AmountResult || 1, equipInfo };
