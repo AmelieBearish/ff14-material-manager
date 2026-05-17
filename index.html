@@ -675,7 +675,49 @@
     </div>
     <div class="form-group">
       <label>ワールド名</label>
-      <input type="text" id="char-world-input" placeholder="Chocobo" />
+      <select id="char-world-input">
+        <option value="">未選択</option>
+        <optgroup label="Elemental">
+          <option>Aegis</option>
+          <option>Atomos</option>
+          <option>Carbuncle</option>
+          <option>Garuda</option>
+          <option>Gungnir</option>
+          <option>Kujata</option>
+          <option>Tonberry</option>
+          <option>Typhon</option>
+        </optgroup>
+        <optgroup label="Gaia">
+          <option>Alexander</option>
+          <option>Bahamut</option>
+          <option>Durandal</option>
+          <option>Fenrir</option>
+          <option>Ifrit</option>
+          <option>Ridill</option>
+          <option>Tiamat</option>
+          <option>Ultima</option>
+        </optgroup>
+        <optgroup label="Mana">
+          <option>Anima</option>
+          <option>Asura</option>
+          <option>Chocobo</option>
+          <option>Hades</option>
+          <option>Ixion</option>
+          <option>Masamune</option>
+          <option>Pandaemonium</option>
+          <option>Titan</option>
+        </optgroup>
+        <optgroup label="Meteor">
+          <option>Belias</option>
+          <option>Mandragora</option>
+          <option>Ramuh</option>
+          <option>Shinryu</option>
+          <option>Unicorn</option>
+          <option>Valefor</option>
+          <option>Yojimbo</option>
+          <option>Zeromus</option>
+        </optgroup>
+      </select>
     </div>
     <div class="btn-row">
       <button class="btn-secondary" onclick="closeModal('modal-char')">キャンセル</button>
@@ -793,11 +835,11 @@
     const cur = matSel.value;
     matSel.innerHTML = characters.length === 0
       ? '<option value="">キャラクターがいません</option>'
-      : characters.map(c => `<option value="${c.id}">${escHtml(c.name)}${c.world ? `(${escHtml(c.world)})` : ''}</option>`).join('');
+      : characters.map(c => `<option value="${c.id}">${escHtml(c.name)}${c.world ? ` (${escHtml(c.world)})` : ''}</option>`).join('');
     if (cur && characters.find(c => c.id === cur)) matSel.value = cur;
 
     recSel.innerHTML = '<option value="all">全キャラ合算</option>' +
-      characters.map(c => `<option value="${c.id}">${escHtml(c.name)}${c.world ? `(${escHtml(c.world)})` : ''}</option>`).join('');
+      characters.map(c => `<option value="${c.id}">${escHtml(c.name)}${c.world ? ` (${escHtml(c.world)})` : ''}</option>`).join('');
   }
 
   window.openAddChar = () => {
