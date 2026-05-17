@@ -793,11 +793,11 @@
     const cur = matSel.value;
     matSel.innerHTML = characters.length === 0
       ? '<option value="">キャラクターがいません</option>'
-      : characters.map(c => `<option value="${c.id}">${escHtml(c.name)}</option>`).join('');
+      : characters.map(c => `<option value="${c.id}">${escHtml(c.name)}${c.world ? `(${escHtml(c.world)})` : ''}</option>`).join('');
     if (cur && characters.find(c => c.id === cur)) matSel.value = cur;
 
     recSel.innerHTML = '<option value="all">全キャラ合算</option>' +
-      characters.map(c => `<option value="${c.id}">${escHtml(c.name)}</option>`).join('');
+      characters.map(c => `<option value="${c.id}">${escHtml(c.name)}${c.world ? `(${escHtml(c.world)})` : ''}</option>`).join('');
   }
 
   window.openAddChar = () => {
