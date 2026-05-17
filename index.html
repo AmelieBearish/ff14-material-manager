@@ -354,6 +354,43 @@
       margin-bottom: 1.5rem;
     }
 
+    .recipe-pane-layout {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .recipe-pane-left {
+      width: 280px;
+      flex-shrink: 0;
+    }
+
+    .recipe-pane-right {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .recipe-list-item {
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.875rem;
+      color: var(--text2);
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .recipe-list-item:hover {
+      background: var(--bg3);
+      color: var(--text);
+    }
+
+    .recipe-list-item.selected {
+      background: rgba(139, 165, 255, 0.1);
+      border-color: var(--border2);
+      color: var(--accent);
+    }
+
     .search-bar input { flex: 1; }
 
     .recipe-result { margin-top: 1.5rem; }
@@ -497,19 +534,26 @@
       </div>
     </div>
 
-    <div id="page-recipe" class="page">
+   <div id="page-recipe" class="page">
       <div class="section-title">レシピ検索</div>
-      <div class="search-bar">
-        <input type="text" id="recipe-input" placeholder="アイテム名で検索（例：ハイポーション）" onkeydown="if(event.key==='Enter')searchRecipe()" />
-        <button class="btn-primary" onclick="searchRecipe()">検索</button>
+      <div class="recipe-pane-layout">
+        <div class="recipe-pane-left">
+          <div class="search-bar">
+            <input type="text" id="recipe-input" placeholder="アイテム名で検索（例：ハイポーション）" onkeydown="if(event.key==='Enter')searchRecipe()" />
+            <button class="btn-primary" onclick="searchRecipe()">検索</button>
+          </div>
+          <div id="recipe-list"></div>
+        </div>
+        <div class="recipe-pane-right">
+          <div id="recipe-char-row" style="display:none; margin-bottom:1rem; display:none; align-items:center; gap:0.75rem;">
+            <span class="char-select-label">判定キャラクター：</span>
+            <select id="recipe-char-select" style="width:200px" onchange="reRenderRecipe()">
+              <option value="all">全キャラ合算</option>
+            </select>
+          </div>
+          <div id="recipe-result"></div>
+        </div>
       </div>
-      <div style="margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem;">
-        <span class="char-select-label">判定キャラクター：</span>
-        <select id="recipe-char-select" style="width:200px" onchange="reRenderRecipe()">
-          <option value="all">全キャラ合算</option>
-        </select>
-      </div>
-      <div id="recipe-result"></div>
     </div>
   </main>
 </div>
@@ -811,27 +855,59 @@
   };
 
   // ===== レシピ検索 =====
+  let searchResults = [];
+
   window.searchRecipe = async () => {
     const query = document.getElementById('recipe-input').value.trim();
     if (!query) return;
+    const listDiv = document.getElementById('recipe-list');
     const resultDiv = document.getElementById('recipe-result');
-    resultDiv.innerHTML = '<div class="loading">検索中...</div>';
+    listDiv.innerHTML = '<div class="loading">検索中...</div>';
+    resultDiv.innerHTML = '';
+    document.getElementById('recipe-char-row').style.display = 'none';
+    lastRecipeData = null;
+    searchResults = [];
 
     try {
       const searchUrl = new URL('https://v2.xivapi.com/api/search');
       searchUrl.searchParams.set('sheets', 'Recipe');
       searchUrl.searchParams.set('query', `ItemResult.Name@ja~"${query}"`);
       searchUrl.searchParams.set('language', 'ja');
-      searchUrl.searchParams.set('limit', '5');
+      searchUrl.searchParams.set('limit', '10');
       const searchRes = await fetch(searchUrl.toString());
       const searchData = await searchRes.json();
       if (!searchData.results || searchData.results.length === 0) {
-        resultDiv.innerHTML = '<div class="empty">レシピが見つかりませんでした</div>';
+        listDiv.innerHTML = '<div class="empty">レシピが見つかりませんでした</div>';
         return;
       }
 
-      const recipeId = searchData.results[0].row_id;
-      const detailRes = await fetch(`https://v2.xivapi.com/api/sheet/Recipe/${recipeId}?language=ja`);
+      searchResults = searchData.results.map(r => ({
+        row_id: r.row_id,
+        name: r.fields?.ItemResult?.fields?.Name || r.fields?.ItemResult?.value?.toString() || `ID:${r.row_id}`
+      }));
+
+      renderSearchList(null);
+    } catch(e) {
+      listDiv.innerHTML = '<div class="empty">検索中にエラーが発生しました</div>';
+      console.error(e);
+    }
+  };
+
+  function renderSearchList(selectedRowId) {
+    const listDiv = document.getElementById('recipe-list');
+    listDiv.innerHTML = searchResults.map(r =>
+      `<div class="recipe-list-item${r.row_id === selectedRowId ? ' selected' : ''}" onclick="selectRecipe(${r.row_id})">${escHtml(r.name)}</div>`
+    ).join('');
+  }
+
+  window.selectRecipe = async (rowId) => {
+    renderSearchList(rowId);
+    const resultDiv = document.getElementById('recipe-result');
+    resultDiv.innerHTML = '<div class="loading">読み込み中...</div>';
+    document.getElementById('recipe-char-row').style.display = 'none';
+
+    try {
+      const detailRes = await fetch(`https://v2.xivapi.com/api/sheet/Recipe/${rowId}?language=ja`);
       const detail = await detailRes.json();
       const f = detail.fields;
 
@@ -849,12 +925,13 @@
 
       const recipeName = f?.ItemResult?.fields?.Name
         || f?.ItemResult?.value?.toString()
-        || query;
+        || `ID:${rowId}`;
 
       lastRecipeData = { name: recipeName, ingredients, amount: f?.AmountResult || 1 };
+      document.getElementById('recipe-char-row').style.display = 'flex';
       renderRecipeResult();
     } catch(e) {
-      resultDiv.innerHTML = '<div class="empty">検索中にエラーが発生しました</div>';
+      resultDiv.innerHTML = '<div class="empty">読み込み中にエラーが発生しました</div>';
       console.error(e);
     }
   };
@@ -901,6 +978,8 @@
         else { statusLabel = `✗ ${ing.need - totalHave}個不足`; statusClass = 'status-ng'; }
       }
 
+      const breakdownChars = selectedChar === 'all' ? characters : characters.filter(c => c.id === selectedChar);
+
       html += `
         <div class="ingredient-row">
           <div class="ingredient-name">${escHtml(ing.name)}</div>
@@ -908,17 +987,19 @@
           <div class="${statusClass}" style="min-width:120px;text-align:right">${statusLabel}</div>
         </div>
         <div class="char-breakdown">
-          ${characters.map(c => {
+          ${breakdownChars.map(c => {
             const have = possession[c.id]?.[ing.name] || 0;
+            const displayName = c.world ? `${escHtml(c.name)}(${escHtml(c.world)})` : escHtml(c.name);
             return `<div class="char-breakdown-row">
-              <span style="color:var(--text3)">${escHtml(c.name)}</span>
+              <span style="color:var(--text3)">${displayName}</span>
               <span style="color:${have > 0 ? 'var(--text)' : 'var(--text3)'}">${have}個</span>
             </div>`;
           }).join('')}
+          ${selectedChar === 'all' ? `
           <div class="total-row">
             <span>合計</span>
             <span style="color:${totalEnough ? 'var(--success)' : 'var(--danger)'}">${totalHave}個</span>
-          </div>
+          </div>` : ''}
         </div>`;
     });
 
