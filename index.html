@@ -1005,33 +1005,43 @@
     resultDiv.innerHTML = '<div class="loading">検索中...</div>';
 
     try {
-      // XIVAPIで検索
-      const searchRes = await fetch(`https://xivapi.com/search?string=${encodeURIComponent(query)}&indexes=recipe&language=ja&limit=5`);
+      // XIVAPI v2で検索
+      const searchQuery = encodeURIComponent(`Name@ja~"${query}"`);
+      const searchRes = await fetch(`https://v2.xivapi.com/api/search?sheets=Recipe&query=${searchQuery}&fields=row_id&language=ja&limit=5`);
       const searchData = await searchRes.json();
-      if (!searchData.Results || searchData.Results.length === 0) {
+      if (!searchData.results || searchData.results.length === 0) {
         resultDiv.innerHTML = '<div class="empty">レシピが見つかりませんでした</div>';
         return;
       }
 
       // 最初のレシピの詳細取得
-      const recipeId = searchData.Results[0].ID;
-      const recipeRes = await fetch(`https://xivapi.com/recipe/${recipeId}?language=ja`);
-      const recipe = await recipeRes.json();
+      const recipeId = searchData.results[0].row_id;
+      const detailRes = await fetch(`https://v2.xivapi.com/api/sheet/Recipe/${recipeId}?language=ja&fields=ItemResult,AmountResult,Ingredient[].Name,AmountIngredient[]`);
+      const detail = await detailRes.json();
+      const f = detail.fields;
 
-      // 素材リスト作成
+      // 素材リスト作成（フォールバックあり）
       const ingredients = [];
-      for (let i = 0; i < 10; i++) {
-        const item = recipe[`ItemIngredient${i}`];
-        const amount = recipe[`AmountIngredient${i}`];
-        if (item && item.Name_ja && amount > 0) {
-          ingredients.push({ name: item.Name_ja, need: amount });
-        }
+      const ingredientArr = f?.Ingredient || [];
+      const amountArr = f?.AmountIngredient || [];
+      for (let i = 0; i < ingredientArr.length; i++) {
+        const amount = amountArr[i] ?? 0;
+        if (amount <= 0) continue;
+        const itemName = ingredientArr[i]?.fields?.Name
+          || ingredientArr[i]?.value?.toString()
+          || `素材[${i}]`;
+        ingredients.push({ name: itemName, need: amount });
       }
 
+      // レシピ名（フォールバックあり）
+      const recipeName = f?.ItemResult?.fields?.Name
+        || f?.ItemResult?.value?.toString()
+        || query;
+
       lastRecipeData = {
-        name: recipe.ItemResult?.Name_ja || query,
+        name: recipeName,
         ingredients,
-        amount: recipe.AmountResult || 1
+        amount: f?.AmountResult || 1
       };
 
       await renderRecipeResult();
