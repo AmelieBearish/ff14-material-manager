@@ -874,7 +874,7 @@
       searchUrl.searchParams.set('query', `ItemResult.Name@ja~"${query}"`);
       searchUrl.searchParams.set('language', 'ja');
       searchUrl.searchParams.set('limit', '10');
-      searchUrl.searchParams.set('fields', 'ItemResult.fields.Name');
+      searchUrl.searchParams.set('fields', 'ItemResult.Name');
       const searchRes = await fetch(searchUrl.toString());
       const searchData = await searchRes.json();
       if (!searchData.results || searchData.results.length === 0) {
