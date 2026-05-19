@@ -521,6 +521,22 @@ input:-webkit-autofill:focus {
       z-index: 200;
     }
     #toast.show { opacity: 1; transform: translateY(0); }
+
+    .vendor-npc-row {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .vendor-npc-row:last-of-type { border-bottom: none; }
+    .vendor-npc-name { font-size: 0.9rem; color: var(--text); margin-bottom: 0.2rem; }
+    .vendor-npc-area { font-size: 0.8rem; color: var(--text2); }
+    .vendor-map-area { display: none; }
+    .vendor-housing {
+      font-size: 0.85rem;
+      color: var(--text2);
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--border);
+      margin-top: 0.25rem;
+    }
   </style>
 </head>
 <body>
@@ -670,6 +686,17 @@ input:-webkit-autofill:focus {
   </div>
 </div>
 
+<!-- 販売NPC情報モーダル -->
+<div class="modal-overlay" id="modal-vendor">
+  <div class="modal" style="width:480px">
+    <div class="modal-title" id="vendor-modal-title"></div>
+    <div id="vendor-modal-body"></div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="closeModal('modal-vendor')">閉じる</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -691,6 +718,7 @@ input:-webkit-autofill:focus {
   // ===== 状態 =====
   let characters = [];
   let lastRecipeData = null;
+  let mapCache = {};
 
   function init() {
     const data = loadStorage();
@@ -1020,6 +1048,38 @@ input:-webkit-autofill:focus {
     renderRecipeResult();
   };
 
+  window.openVendorPopup = async (itemName) => {
+    document.getElementById('vendor-modal-title').textContent = escHtml(itemName);
+    document.getElementById('vendor-modal-body').innerHTML = '<div class="loading">読み込み中...</div>';
+    openModal('modal-vendor');
+    try {
+      const result = await fetchVendorInfo(itemName);
+      let html = '';
+      if (!result || result.type === 'none') {
+        html = '<div class="empty">ギルショップでの販売なし</div>';
+      } else {
+        if (result.npcList.length > 0) {
+          html += result.npcList.map(npc => `
+            <div class="vendor-npc-row">
+              <div class="vendor-npc-name">${escHtml(npc.name)}</div>
+              <div class="vendor-npc-area">${escHtml(npc.areaName)}${npc.x !== null ? `　X: ${npc.x} Y: ${npc.y}` : ''}</div>
+              <div class="vendor-map-area"></div>
+            </div>`).join('');
+        }
+        if (result.hasHousing) {
+          html += '<div class="vendor-housing">ハウジング雇用「素材屋」でも購入可能</div>';
+        }
+        if (result.npcList.length === 0 && !result.hasHousing) {
+          html = '<div class="empty">ギルショップでの販売なし</div>';
+        }
+      }
+      document.getElementById('vendor-modal-body').innerHTML = html;
+    } catch(e) {
+      document.getElementById('vendor-modal-body').innerHTML = '<div class="empty">情報の取得に失敗しました</div>';
+      console.error(e);
+    }
+  };
+
   function renderRecipeResult() {
     if (!lastRecipeData) return;
     const { name, ingredients, amount, equipInfo, craftCount } = lastRecipeData;
@@ -1082,7 +1142,7 @@ input:-webkit-autofill:focus {
 
       html += `
         <div class="ingredient-row">
-          <div class="ingredient-name">${escHtml(ing.name)}</div>
+          <div class="ingredient-name" style="cursor:pointer;text-decoration:underline;text-decoration-color:var(--border2);" onclick="openVendorPopup('${escHtml(ing.name)}')">${escHtml(ing.name)}</div>
           <div class="ingredient-need">必要: ${need}</div>
           <div class="${statusClass}" style="min-width:120px;text-align:right">${statusLabel}</div>
         </div>
@@ -1130,6 +1190,67 @@ input:-webkit-autofill:focus {
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
   };
+
+  function calcDisplayCoord(coord, offset, sizeFactor) {
+    const scale = sizeFactor / 100;
+    return Math.round(((coord / scale) + (offset / scale) + 1) * 10) / 10;
+  }
+
+  async function fetchVendorInfo(itemName) {
+    // アイテムID取得
+    const searchUrl = new URL('https://v2.xivapi.com/api/search');
+    searchUrl.searchParams.set('sheets', 'Item');
+    searchUrl.searchParams.set('query', `Name@ja="${itemName}"`);
+    searchUrl.searchParams.set('language', 'ja');
+    searchUrl.searchParams.set('fields', 'row_id');
+    const searchRes = await fetch(searchUrl.toString());
+    const searchData = await searchRes.json();
+    if (!searchData.results || searchData.results.length === 0) return null;
+    const itemId = searchData.results[0].row_id;
+
+    // Garland Tools で販売NPC取得
+    const garlandRes = await fetch(`https://www.garlandtools.org/db/doc/item/ja/3/${itemId}.json`);
+    const garlandData = await garlandRes.json();
+    const vendors = garlandData?.item?.vendors;
+    if (!vendors || vendors.length === 0) return { type: 'none' };
+
+    const partials = garlandData?.partials || [];
+    const npcList = [];
+    let hasHousing = false;
+
+    for (const npcId of vendors) {
+      const partial = partials.find(p => p.type === 'n' && String(p.id) === String(npcId));
+      if (!partial) continue;
+      if (!partial.c) {
+        hasHousing = true;
+        continue;
+      }
+      const locationId = partial.l;
+      // マップ情報取得（キャッシュ優先）
+      if (locationId && !mapCache[locationId]) {
+        const mapRes = await fetch(`https://v2.xivapi.com/api/sheet/Map/${locationId}?language=ja`);
+        const mapData = await mapRes.json();
+        mapCache[locationId] = {
+          areaName: mapData?.fields?.PlaceName?.fields?.Name || '',
+          sizeFactor: mapData?.fields?.SizeFactor || 100,
+          offsetX: mapData?.fields?.OffsetX || 0,
+          offsetY: mapData?.fields?.OffsetY || 0,
+        };
+      }
+      const map = locationId ? mapCache[locationId] : null;
+      const coords = partial.c;
+      const x = map ? calcDisplayCoord(coords[0], map.offsetX, map.sizeFactor) : null;
+      const y = map ? calcDisplayCoord(coords[1], map.offsetY, map.sizeFactor) : null;
+      npcList.push({
+        name: partial.n,
+        areaName: map?.areaName || '',
+        x,
+        y,
+      });
+    }
+
+    return { type: 'found', npcList, hasHousing };
+  }
 
   function escHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
