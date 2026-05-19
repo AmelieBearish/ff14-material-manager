@@ -719,6 +719,7 @@ input:-webkit-autofill:focus {
   let characters = [];
   let lastRecipeData = null;
   let mapCache = {};
+  let vendorCache = {};
 
   function init() {
     const data = loadStorage();
@@ -1049,6 +1050,10 @@ input:-webkit-autofill:focus {
   };
 
   window.openVendorPopup = async (itemName) => {
+    if (vendorCache[itemName] === 'none') {
+      showToast('ギルショップでの販売なし');
+      return;
+    }
     document.getElementById('vendor-modal-title').textContent = escHtml(itemName);
     document.getElementById('vendor-modal-body').innerHTML = '<div class="loading">読み込み中...</div>';
     openModal('modal-vendor');
@@ -1056,6 +1061,7 @@ input:-webkit-autofill:focus {
       const result = await fetchVendorInfo(itemName);
       let html = '';
       if (!result || result.type === 'none') {
+        vendorCache[itemName] = 'none';
         html = '<div class="empty">ギルショップでの販売なし</div>';
       } else {
         if (result.npcList.length > 0) {
@@ -1142,7 +1148,7 @@ input:-webkit-autofill:focus {
 
       html += `
         <div class="ingredient-row">
-          <div class="ingredient-name" style="cursor:pointer;text-decoration:underline;text-decoration-color:var(--border2);" onclick="openVendorPopup('${escHtml(ing.name)}')">${escHtml(ing.name)}</div>
+          <div class="ingredient-name" style="${vendorCache[ing.name] === 'none' ? 'cursor:default;color:var(--text3);' : 'cursor:pointer;text-decoration:underline;text-decoration-color:var(--border2);'}" ${vendorCache[ing.name] === 'none' ? '' : `onclick="openVendorPopup('${escHtml(ing.name)}')"`}>${escHtml(ing.name)}</div>
           <div class="ingredient-need">必要: ${need}</div>
           <div class="${statusClass}" style="min-width:120px;text-align:right">${statusLabel}</div>
         </div>
